@@ -2,6 +2,9 @@ let express = require('express')
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const Usuario = require('../models/usuario');
+const {verificarToken} = require('../middlewares/autenticacion');
+const {verificarRol} = require('../middlewares/autenticacion');
+
 let app = express()
  
 
@@ -9,7 +12,9 @@ let app = express()
     Obtener los usuarios por paginas, por defecto desde el registro 0, hasta un maximo de 5
     Parametros adminitods desde, limite
 */
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificarToken, function (req, res) {
+
+    
     let desde = req.query.desde || 0;
     desde=Number(desde);
 
@@ -41,7 +46,7 @@ app.get('/usuario', function (req, res) {
 /*
 Metodo para solicitud post de un usuario, recibe los parametros dados en el modelo si todo esta correcto lo guarda en la BDD, caso contrario responde con status 400.
 */
-app.post('/usuario', function (req, res) {
+app.post('/usuario',[verificarToken, verificarRol],function (req, res) {
       let body = req.body;
       let usuario = new Usuario({
           nombre:body.nombre,
@@ -68,7 +73,7 @@ app.post('/usuario', function (req, res) {
   Metodo para actualizar un registro de tipo usuario, recibe como parametro un id qu servira para buscarlo
   y a la postre actualizarlo
   */
-  app.put('/usuario/:id', function (req, res) {
+  app.put('/usuario/:id',[verificarToken, verificarRol],function (req, res) {
       let id = req.params.id;
       let body = _.pick(req.body, ['nombre', 'apellido','email', 'img','rol','estado']);
       Usuario.findByIdAndUpdate(id,body,{new:true, runValidators:true},(err,usuarioBD)=>{
@@ -92,7 +97,7 @@ app.post('/usuario', function (req, res) {
     Metodo para eliminar un registro del tipo usuario, se necesita como parametro un id, para proceder
     a actualizar el campo estado a false, de tal manera que se mantenga la integridad referencial
 */
-app.delete('/usuario/:id', function (req, res) {
+app.delete('/usuario/:id',[verificarToken, verificarRol], function (req, res) {
     let id = req.params.id;
     //Usuario.findByIdAndRemove(id,(err, usuarioBD)=>{
     let updateEstado = {

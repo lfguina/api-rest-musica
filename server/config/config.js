@@ -1,3 +1,4 @@
+//process.env.= variables de configuracion en produccion.
 //Puerto
 process.env.PORT = process.env.PORT || 3000;
 
@@ -12,6 +13,19 @@ if (process.env.NODE_ENV==='dev'){
 }else{
     urlDB='mongodb://admin:electronica10@ds119650.mlab.com:19650/musica';
 }
-
 process.env.URLDB=urlDB;
+
+
+//periodo de vencimiento token, 30 dias
+//60segs
+//60mints
+//24hrs
+//30dias
+process.env.CADUCIDAD_TOKEN = 60*60*24*30;
+
+//seed, o secret del tolen 
+process.env.SEED =process.env.SEED || 'seed-desarrollo' ;
+
+
+
 
