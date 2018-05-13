@@ -21,7 +21,7 @@ process.env.URLDB=urlDB;
 //60mints
 //24hrs
 //30dias
-process.env.CADUCIDAD_TOKEN = 60*60*24*30;
+process.env.CADUCIDAD_TOKEN = '48h';
 
 //seed, o secret del tolen 
 process.env.SEED =process.env.SEED || 'seed-desarrollo' ;

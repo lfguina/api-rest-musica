@@ -45,5 +45,5 @@ usuarioSchema.methods.toJSON = function(){
     delete userObject.password;
     return userObject;
 }
-usuarioSchema.plugin(uniqueValidator, { message:'{PATH} debe ser unico'});
+//usuarioSchema.plugin(uniqueValidator, { message:'{PATH} debe ser unico'});
 module.exports=mongose.model('Usuario', usuarioSchema);

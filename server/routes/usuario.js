@@ -46,7 +46,7 @@ app.get('/usuario', verificarToken, function (req, res) {
 /*
 Metodo para solicitud post de un usuario, recibe los parametros dados en el modelo si todo esta correcto lo guarda en la BDD, caso contrario responde con status 400.
 */
-app.post('/usuario',[verificarToken, verificarRol],function (req, res) {
+app.post('/usuario',function (req, res) {
       let body = req.body;
       let usuario = new Usuario({
           nombre:body.nombre,
@@ -122,7 +122,8 @@ app.delete('/usuario/:id',[verificarToken, verificarRol], function (req, res) {
 
         res.json({
             ok:true,
-            usuario:usuarioBD
+            usuario:usuarioBD,
+            mensaje:'Usuario borrado'
         })
 
     });
